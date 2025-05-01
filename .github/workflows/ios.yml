@@ -17,7 +17,7 @@ jobs:
       - name: Build the app
         run: |
           xcodebuild clean build \
-            -workspace ThriveCheckAI.xcworkspace \
+            -project ThriveCheckAI.xcodeproj \
             -scheme ThriveCheckAI \
             -sdk iphonesimulator \
             -destination 'platform=iOS Simulator,name=iPhone 14' \
@@ -26,7 +26,7 @@ jobs:
       - name: Run tests
         run: |
           xcodebuild test \
-            -workspace ThriveCheckAI.xcworkspace \
+            -project ThriveCheckAI.xcodeproj \
             -scheme ThriveCheckAI \
             -sdk iphonesimulator \
             -destination 'platform=iOS Simulator,name=iPhone 14' \
