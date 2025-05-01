@@ -8,7 +8,9 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-13
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_15.4.app/Contents/Developer
 
     steps:
       - name: Checkout code
@@ -17,8 +19,7 @@ jobs:
       - name: Build and test
         run: |
           xcodebuild -project ThriveCheckAI.xcodeproj \
-            -scheme ThriveCheckAI \
-            -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 14' \
-            build test
-     
+                     -scheme ThriveCheckAI \
+                     -sdk iphonesimulator \
+                     -destination 'platform=iOS Simulator,name=iPhone 14' \
+                     build test
