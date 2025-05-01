@@ -9,27 +9,16 @@ on:
 jobs:
   build:
     runs-on: macos-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set Default Scheme
-        id: scheme
+      - name: Build and test
         run: |
-          scheme_list=$(xcodebuild -list -json | tr -d "\n")
-          default=$(echo $scheme_list | ruby -r 'json' -e 'puts JSON.parse(STDIN.gets)["project"]["targets"][0]')
-          echo "SCHEME=$default" >> $GITHUB_ENV
-
-      - name: Build
-        run: |
-          xcodebuild build-for-testing \
-            -scheme "$SCHEME" \
+          xcodebuild -project ThriveCheckAI.xcodeproj \
+            -scheme ThriveCheckAI \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 14'
-
-      - name: Test
-        run: |
-          xcodebuild test-without-building \
-            -scheme "$SCHEME" \
-            -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 14'
+            -destination 'platform=iOS Simulator,name=iPhone 14' \
+            build test
+     
