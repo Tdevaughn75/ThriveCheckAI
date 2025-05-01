@@ -8,9 +8,7 @@ on:
 
 jobs:
   build:
-    name: Build and Test
     runs-on: macos-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -21,7 +19,6 @@ jobs:
           scheme_list=$(xcodebuild -list -json | tr -d "\n")
           default=$(echo $scheme_list | ruby -r 'json' -e 'puts JSON.parse(STDIN.gets)["project"]["targets"][0]')
           echo "SCHEME=$default" >> $GITHUB_ENV
-          echo "Using default scheme: $default"
 
       - name: Build
         run: |
@@ -36,4 +33,3 @@ jobs:
             -scheme "$SCHEME" \
             -sdk iphonesimulator \
             -destination 'platform=iOS Simulator,name=iPhone 14'
-      
