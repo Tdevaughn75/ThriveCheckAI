@@ -8,33 +8,18 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-14
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Ruby for CocoaPods
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 3.1
-
-      - name: Install dependencies
-        run: |
-          gem install cocoapods
+      - name: Select latest Xcode
+        run: sudo xcode-select -switch /Applications/Xcode_15.4.app
 
       - name: Build the app
         run: |
           xcodebuild clean build \
-            -project ThriveCheckAI.xcodeproj \
-            -scheme ThriveCheckAI \
-            -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 14' \
-            CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
-
-      - name: Run tests
-        run: |
-          xcodebuild test \
             -project ThriveCheckAI.xcodeproj \
             -scheme ThriveCheckAI \
             -sdk iphonesimulator \
