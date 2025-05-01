@@ -8,20 +8,29 @@ on:
 
 jobs:
   build:
-    runs-on: macos-14
+    runs-on: macos-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Select latest Xcode
-        run: sudo xcode-select -switch /Applications/Xcode_15.4.app
+    - name: Set up Xcode
+      run: sudo xcode-select -s /Applications/Xcode_15.4.app
 
-      - name: Build the app
-        run: |
-          xcodebuild clean build \
-            -project ThriveCheckAI.xcodeproj \
-            -scheme ThriveCheckAI \
-            -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 14' \
-            CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+    - name: Build the app
+      run: |
+        xcodebuild clean build \
+        -project ThriveCheckAI.xcodeproj \
+        -scheme ThriveCheckAI \
+        -sdk iphonesimulator \
+        -destination 'platform=iOS Simulator,name=iPhone 14' \
+        CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+
+    - name: Run tests
+      run: |
+        xcodebuild test \
+        -project ThriveCheckAI.xcodeproj \
+        -scheme ThriveCheckAI \
+        -sdk iphonesimulator \
+        -destination 'platform=iOS Simulator,name=iPhone 14' \
+        CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
